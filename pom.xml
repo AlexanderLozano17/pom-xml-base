@@ -49,6 +49,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- Jackson se encarga de convertir objetos Java a JSON y viceversa. Es esencial para las APIs RESTful. -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <!-- Proporciona soporte para la validación de datos de entrada. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
