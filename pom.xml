@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--
-    El "parent" establece un conjunto de propiedades y dependencias predefinidas
-    para el proyecto, gestionando las versiones y la compatibilidad de forma centralizada.
-    Esto te ahorra tener que definir las versiones de muchas librerías de Spring Boot.
-    -->
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
-        <relativePath/> <!-- Busca el padre en el repositorio de Maven -->
+        <version>3.3.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <!-- Información básica del proyecto -->
-    <groupId>com.group</groupId>
-    <artifactId>artifact</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>name</name>
-    <description>Descripción del proyecto</description>
+    <groupId>com.modulo</groupId>
+    <artifactId>modulo</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>modulo</name>
+    <description>modulo</description>
+    <packaging>jar</packaging>
 
     <!--
     Propiedades globales que se pueden reutilizar en todo el POM.
@@ -27,7 +25,9 @@
     de una dependencia en un solo lugar.
     -->
     <properties>
-        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok.version>1.18.32</lombok.version>
         <webmvc-ui.version>2.5.0</webmvc-ui.version>
@@ -41,6 +41,12 @@
     -->
     <dependencies>
         <!-- ==================== Dependencias Web, API y Persistencia ==================== -->
+
+        <!-- roporciona las dependencias básicas necesarias para que tu aplicación Spring Boot funcione. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
 
         <!-- Habilita la creación de aplicaciones web, incluyendo un servidor web embebido (Tomcat). -->
         <dependency>
@@ -138,6 +144,14 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!-- ==================== Circuit Breaker Dependency ==================== -->
+
+        <!-- Mejora la resiliencia de tu aplicación al manejar fallos en servicios externos de manera eficiente.-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        </dependency>
+
         <!-- ==================== Dependencias de Pruebas ==================== -->
 
         <!--
@@ -222,9 +236,7 @@
             </plugin>
 
             <!--
-            Plugin para medir la cobertura de código. Se configura para
-            ejecutar el agente durante la fase de preparación y generar
-            el informe en la fase de prueba.
+            Plugin de JaCoCo para medir la cobertura de código de las pruebas.
             -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -232,12 +244,14 @@
                 <version>${jacoco.version}</version>
                 <executions>
                     <execution>
+                        <!-- Prepara el agente para instrumentar el código. -->
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>report</id>
+                        <!-- Se ejecuta después de la fase de pruebas para generar el informe. -->
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
